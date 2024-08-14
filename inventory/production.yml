@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    nodes:
+      hosts:
+        germany-node1:
+        germany-node2:
+        finland-node1:
+      vars:
+        ansible_user: root
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa
