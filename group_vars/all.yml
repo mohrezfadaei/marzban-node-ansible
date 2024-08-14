@@ -8,6 +8,11 @@ ansible_ssh_private_key_file: ~/.ssh/id_rsa
 base_url: https://api.example.com
 auth_token: your_auth_token # JWT: authentication token
 
+
+firewall_allowed_ports:
+  - 80
+  - 443
+
 nginx_configs:
   - listen_on: "*.example1.com"
     from_port: 80

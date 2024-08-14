@@ -13,3 +13,9 @@
   gather_facts: yes
   roles:
     - node
+
+- name: Configure Firewall
+  hosts: all
+  gather_facts: yes
+  roles:
+    - firewall
