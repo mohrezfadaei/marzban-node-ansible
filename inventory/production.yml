@@ -4,8 +4,18 @@ all:
     nodes:
       hosts:
         germany-node1:
+          ansible_host: 192.168.100.1
+          usage_coefficient: 1
+          status: active
         germany-node2:
+          ansible_host: 192.168.100.2
+          usage_coefficient: 2
+          status: active
         finland-node1:
+          ansible_host: 192.168.200.1
+          usage_coefficient: 1
+          status: active
       vars:
         ansible_user: root
         ansible_ssh_private_key_file: ~/.ssh/id_rsa
+        ssl_client_cert: "{{ lookup('file', '../group_vars/vault.yml') }}"

@@ -5,6 +5,9 @@ ansible_ssh_private_key_file: ~/.ssh/id_rsa
 # Include the vaulted variables
 - include_vars: vault.yml
 
+base_url: https://api.example.com
+auth_token: your_auth_token # JWT: authentication token
+
 nginx_configs:
   - listen_on: "*.example1.com"
     from_port: 80
@@ -21,6 +24,7 @@ nginx_configs:
     to_port: 8003
     path: "8003"
     ssl: false
+
 
 # Notice: Use ansible-vault instead (optional)
 # Notice: If you use ansible-vault, elements ssl_client_cert in this file
