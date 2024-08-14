@@ -1,0 +1,32 @@
+---
+- name: Ensure /var/lib/marzban-node directory exists
+  ansible.builtin.file:
+    path: /var/lib/marzban-node
+    state: directory
+    mode: "0755"
+
+- name: Create ssl_client_cert.pem file with provided certificate
+  ansible.builtin.copy:
+    dest: /var/lib/marzban-node/ssl_client_cert.pem
+    content: "{{ ssl_client_cert }}"
+    mode: "0644"
+
+- name: Create Docker Compose directory
+  ansible.builtin.file:
+    path: /opt/marzban
+    state: directory
+
+- name: Copy docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/marzban/docker-compose.yml
+
+- name: Copy nginx.conf
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /opt/marzban/nginx.conf
+
+- name: Start Docker Compose
+  community.docker.docker_compose:
+    project_src: /opt/marzban
+    state: present

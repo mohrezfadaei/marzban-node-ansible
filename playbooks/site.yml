@@ -2,3 +2,8 @@
   hosts: all
   roles:
     - docker
+
+- name: Configure Marzban containers
+  hosts: all
+  roles:
+    - marzban

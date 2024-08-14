@@ -1,0 +1,22 @@
+services:
+  marzban-node:
+    image: gozargah/marzban-node:latest
+    restart: always
+    network_mode: host
+    environment:
+      SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
+    volumes:
+      - /var/lib/marzban-node:/var/lib/marzban-node
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+networks:
+  default:
+    driver: bridge

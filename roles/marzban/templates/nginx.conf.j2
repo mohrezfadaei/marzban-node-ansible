@@ -1,0 +1,33 @@
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    {% for config in nginx_configs %}
+    server {
+        listen {{ config.from_port }}{% if config.ssl %} ssl{% endif %};
+        server_name {{ config.listen_on }};
+
+        location / {
+            proxy_pass http://127.0.0.1:{{ config.to_port }};
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        {% if config.ssl %}
+        ssl_certificate /etc/nginx/ssl/{{ config.listen_on }}.crt;
+        ssl_certificate_key /etc/nginx/ssl/{{ config.listen_on }}.key;
+        {% endif %}
+    }
+    {% endfor %}
+}
