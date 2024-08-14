@@ -1,0 +1,78 @@
+---
+- name: Check if node exists
+  uri:
+    url: "{{ base_url }}/api/nodes"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ auth_token }}"
+    return_content: yes
+  register: node_list_response
+
+- name: Define address filter
+  set_fact:
+    address_filter: "{{ ansible_default_ipv4.address }}"
+
+- name: Filter existing nodes by address
+  set_fact:
+    existing_nodes: "{{ node_list_response.json | selectattr('address', 'equalto', address_filter) | list }}"
+
+- name: Set node_exists fact
+  set_fact:
+    node_exists: "{{ existing_nodes | length > 0 }}"
+
+- name: Set current node details if node exists
+  set_fact:
+    current_node: "{{ existing_nodes[0] }}"
+  when: node_exists
+
+- name: Create node on panel
+  uri:
+    url: "{{ base_url }}/api/node"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ auth_token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      name: "{{ ansible_hostname }}"
+      address: "{{ ansible_default_ipv4.address }}"
+      port: 62050
+      api_port: 62051
+      usage_coefficient: "{{ usage_coefficient }}"
+      status: "disabled"
+    status_code: 201
+  when: not node_exists
+
+- name: Determine if update is needed
+  set_fact:
+    update_needed: >-
+      {{
+        current_node.name != ansible_hostname or
+        current_node.port != 62050 or
+        current_node.api_port != 62051 or
+        current_node.usage_coefficient != usage_coefficient
+      }}
+  when: node_exists
+
+- name: Get existing node ID
+  set_fact:
+    node_id: "{{ current_node.id }}"
+  when: node_exists
+
+- name: Update existing node on panel
+  uri:
+    url: "{{ base_url }}/api/node/{{ node_id }}"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ auth_token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      name: "{{ ansible_hostname }}"
+      address: "{{ ansible_default_ipv4.address }}"
+      port: 62050
+      api_port: 62051
+      status: "{{  }}"
+      usage_coefficient: "{{ usage_coefficient }}"
+    status_code: 200
+  when: update_needed
