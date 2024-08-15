@@ -124,6 +124,16 @@ ansible-playbook -i inventory/production.yml playbooks/site.yml --ask-vault-pass
    docker rm ansible-test
    ```
 
+## Acknowledgments
+
+We would like to extend our heartfelt thanks to the developers and contributors of the [Marzban project](https://github.com/Gozargah/Marzban). Marzban, developed by Gozargah, has provided an exceptional solution for managing VPN users and services with ease. Its user-friendly interface and comprehensive feature set have significantly simplified the administration of VPN networks, ensuring secure and reliable connectivity.
+
+We are grateful for the contributions of the Marzban project and the dedication of its community. Thank you, Marzban, for empowering organizations and individuals to achieve secure, efficient, and manageable VPN services. Your efforts have made a significant impact, and we look forward to your continued growth and success.
+
 ## License
 
 This project is licensed under the Apache License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request with your improvements.
