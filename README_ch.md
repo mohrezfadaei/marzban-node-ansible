@@ -2,6 +2,12 @@
 
 此仓库包含用于安装 Docker、配置 Marzban 容器和管理面板上的节点的 Ansible playbook 和角色。本指南提供了设置 Python 虚拟环境、安装 Ansible 和运行 playbook 的说明。
 
+## 语言
+
+- [英语](README.md)
+- [波斯语](README_fa.md)
+- [中文](README_zh.md)
+
 ## 前提条件
 
 确保您的系统上安装了以下内容：

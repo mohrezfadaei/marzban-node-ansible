@@ -2,6 +2,12 @@
 
 This repository contains Ansible playbooks and roles for installing Docker, configuring Marzban containers, and managing nodes on a panel. This guide provides instructions for setting up a Python virtual environment, installing Ansible, and running the playbooks.
 
+## Language
+
+- [English](README.md)
+- [Farsi](README_fa.md)
+- [Chinese](README_zh.md)
+
 ## Prerequisites
 
 Ensure you have the following installed on your system:
